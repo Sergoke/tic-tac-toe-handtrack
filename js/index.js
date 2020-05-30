@@ -5,14 +5,11 @@ let trackButton = document.getElementById("trackbutton");
 let updateNote = document.getElementById("updatenote");
 
 let isVideo = false;
-let model2 = null;
+let model = null;
 
- video.width = 700
- video.height = 400
-
-const model2Params = {
+const modelParams = {
     flipHorizontal: true,   // flip e.g for video  
-    maxNumBoxes: 1,        // maximum number of boxes to detect
+    maxNumBoxes: 10,        // maximum number of boxes to detect
     iouThreshold: 0.5,      // ioU threshold for non-max suppression
     scoreThreshold: 0.6,    // confidence threshold for predictions.
 }
@@ -47,39 +44,17 @@ trackButton.addEventListener("click", function(){
     toggleVideo();
 });
 
-function nextImage() {
-
-    imgindex++;
-    handimg.src = "images/" + imgindex % 15 + ".jpg"
-    // alert(handimg.src)
-    runDetectionImage(handimg)
-}
-
-
-
 function runDetection() {
-    model2.detect(video).then(predictions => {
+    model.detect(video).then(predictions => {
         console.log("Predictions: ", predictions);
-        model2.renderPredictions(predictions, canvas, context, video);
+        model.renderPredictions(predictions, canvas, context, video);
         if (isVideo) {
             requestAnimationFrame(runDetection);
         }
     });
 }
 
-function runDetectionImage(img) {
-    model2.detect(img).then(predictions => {
-        console.log("Predictions: ", predictions);
-        model2.renderPredictions(predictions, canvas, context, img);
-    });
-}
-
-// Load the model2.
-handTrack.load(model2Params).then(lmodel2 => {
-    // detect objects in the image.
-    model2 = lmodel2
-    updateNote.innerText = "Loaded model2!"
-    runDetectionImage(handimg)
-    trackButton.disabled = false
-    nextImageButton.disabled = false
+handTrack.load(modelParams).then(m => {
+    model = m
+    updateNote.innerText = "Loaded model!"
 });
