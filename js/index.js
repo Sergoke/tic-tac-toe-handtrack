@@ -106,6 +106,15 @@ function drawCross(x, y) {
     context.lineWidth = "3";
     context.strokeStyle = "red";
 
+    if(board.gameResults.winner) {
+        for(el of board.gameResults.winningLine) {
+            if(x == el[0] && y == el[1]) {
+                context.strokeStyle = "blue";
+                break;
+            }
+        }
+    }
+
     // from top left to bottom right
     context.moveTo(center_x - a, center_y - a);
     context.lineTo(center_x + a, center_y + a);
@@ -127,6 +136,15 @@ function drawZero(x, y) {
     context.beginPath();
     context.lineWidth = "3";
     context.strokeStyle = "red";
+
+    if(board.gameResults.winner) {
+        for(el of board.gameResults.winningLine) {
+            if(x == el[0] && y == el[1]) {
+                context.strokeStyle = "blue";
+                break;
+            }
+        }
+    }
 
     context.arc(center_x, center_y, a, 0, 2 * Math.PI);
 
@@ -163,30 +181,33 @@ video.addEventListener('play', function() {
         drawGameField(context);
 
         drawMoves();
-        let a = parseInt(fieldSize / 3);
 
-        if(!rects) {
-            rects = [
-                [[[0, 0], [fieldStart[0]+a, fieldStart[1]+a]], [[fieldStart[0]+a, 0], [fieldStart[0]+2*a, fieldStart[1]+a]], [[fieldStart[0]+2*a, 0], [width, fieldStart[1]+a]]],
-                [[[0, fieldStart[1]+a], [fieldStart[0]+a, fieldStart[1]+2*a]], [[fieldStart[0]+a, fieldStart[1]+a], [fieldStart[0]+2*a, fieldStart[1]+2*a]], [[fieldStart[0]+2*a, fieldStart[1]+a], [width, fieldStart[1]+2*a]]],
-                [[[0, fieldStart[1]+2*a], [fieldStart[0]+a, height]], [[fieldStart[0]+a, fieldStart[1]+2*a], [fieldStart[0]+2*a, height]], [[fieldStart[0]+2*a, fieldStart[1]+2*a], [width, height]]],
-            ]
-        }
+        if(!board.gameResults.winner) {
+            let a = parseInt(fieldSize / 3);
 
-        for(let i = 0; i < 3; i++) {
-            for(let j = 0; j < 3; j++) {
-                rect = rects[i][j];
-                [[x1, y1], [x2, y2]] = rect;
-                if(x1 < pointer[0] && pointer[0] < x2 && y1 < pointer[1] && pointer[1] < y2) {
-//                    console.log(i+1, j+1);
-                    countDown(j, i);
-                    highlightCell(j, i);
-                    break;
+            if(!rects) {
+                rects = [
+                    [[[0, 0], [fieldStart[0]+a, fieldStart[1]+a]], [[fieldStart[0]+a, 0], [fieldStart[0]+2*a, fieldStart[1]+a]], [[fieldStart[0]+2*a, 0], [width, fieldStart[1]+a]]],
+                    [[[0, fieldStart[1]+a], [fieldStart[0]+a, fieldStart[1]+2*a]], [[fieldStart[0]+a, fieldStart[1]+a], [fieldStart[0]+2*a, fieldStart[1]+2*a]], [[fieldStart[0]+2*a, fieldStart[1]+a], [width, fieldStart[1]+2*a]]],
+                    [[[0, fieldStart[1]+2*a], [fieldStart[0]+a, height]], [[fieldStart[0]+a, fieldStart[1]+2*a], [fieldStart[0]+2*a, height]], [[fieldStart[0]+2*a, fieldStart[1]+2*a], [width, height]]],
+                ]
+            }
+
+            for(let i = 0; i < 3; i++) {
+                for(let j = 0; j < 3; j++) {
+                    rect = rects[i][j];
+                    [[x1, y1], [x2, y2]] = rect;
+                    if(x1 < pointer[0] && pointer[0] < x2 && y1 < pointer[1] && pointer[1] < y2) {
+    //                    console.log(i+1, j+1);
+                        countDown(j, i);
+                        highlightCell(j, i);
+                        break;
+                    }
                 }
             }
-        }
 
-        setTimeout(loop, 1000 / 30); // drawing at 30fps
+            setTimeout(loop, 1000 / 30); // drawing at 30fps
+        }
     })();
 }, 0);
 

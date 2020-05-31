@@ -13,6 +13,9 @@ const RESULT = {
   playerOWon: SYMBOLS.o,
   tie: 3
 }
+const gameResults = {
+    winner: null
+}
 const VIEW = {
 //  question1: 1,
 //  question2: 2,
@@ -323,6 +326,8 @@ function Board(){
       if(result !== RESULT.tie) {
         let winningPlayer = state.players.find((player)=>{return player.symbol == result})
         winningPlayer.score++
+        gameResults.winner = winningPlayer;
+        gameResults.winningLine = result.winningLine;
       }
 
       state.view = VIEW.result
@@ -352,10 +357,10 @@ function Board(){
 
     return {
         state,
+        result: RESULT,
+        gameResults,
         doPlayerMove,
-        doComputerMove,
     }
 }
 
-
-board = new Board()
+window.board = new Board()
