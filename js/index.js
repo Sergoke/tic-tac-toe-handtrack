@@ -95,6 +95,50 @@ function countDown(x, y) {
     }
 }
 
+function drawCross(x, y) {
+    let third_part = parseInt(fieldSize/3);
+    a = 30
+
+    let center_x = fieldStart[0] + third_part * x + third_part / 2
+    let center_y = fieldStart[1] + third_part * y + third_part / 2
+
+    context.beginPath();
+    context.lineWidth = "3";
+    context.strokeStyle = "red";
+
+    // from top left to bottom right
+    context.moveTo(center_x - a, center_y - a);
+    context.lineTo(center_x + a, center_y + a);
+
+    // from bottom right to top left
+    context.moveTo(center_x - a, center_y + a);
+    context.lineTo(center_x + a, center_y - a);
+
+    context.stroke();
+}
+
+function drawZero(x, y) {
+    let third_part = parseInt(fieldSize/3);
+    a = 30
+
+    let center_x = fieldStart[0] + third_part * x + third_part / 2
+    let center_y = fieldStart[1] + third_part * y + third_part / 2
+
+    context.beginPath();
+    context.lineWidth = "3";
+    context.strokeStyle = "red";
+
+    context.arc(center_x, center_y, a, 0, 2 * Math.PI);
+
+    context.stroke();
+}
+
+function drawMoves() {
+    drawCross(1, 1);
+    drawZero(2, 2);
+    drawZero(1, 0);
+}
+
 video.addEventListener('play', function() {
     var $this = this; //cache
     context.canvas.width = video.width;
@@ -110,6 +154,8 @@ video.addEventListener('play', function() {
         context.fillStyle = 'green';
         context.fill();
         drawGameField(context);
+
+        drawMoves();
         let a = parseInt(fieldSize / 3);
 
         if(!rects) {
