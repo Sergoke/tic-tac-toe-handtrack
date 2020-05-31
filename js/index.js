@@ -17,6 +17,8 @@ let isVideo = false;
 let model = null;
 pointer = [0, 0];
 
+pointerCell = null;
+
 const modelParams = {
     flipHorizontal: false,   // flip e.g for video
     maxNumBoxes: 5,        // maximum number of boxes to detect
@@ -76,6 +78,23 @@ function highlightCell(x, y) {
     context.stroke();
 }
 
+timeoutTurn = null;
+
+function countDown(x, y) {
+    if(!pointerCell || pointerCell[0] != x || pointerCell[1] != y) {
+        pointerCell = [x, y];
+
+        if(timeoutTurn) {
+            clearTimeout(timeoutTurn);
+        }
+
+        timeoutTurn = setTimeout(() => {
+            console.log('move to: ', pointerCell);
+            board.doPlayerMove(x, y);
+        }, 3000);
+    }
+}
+
 video.addEventListener('play', function() {
     var $this = this; //cache
     context.canvas.width = video.width;
@@ -106,7 +125,8 @@ video.addEventListener('play', function() {
                 rect = rects[i][j];
                 [[x1, y1], [x2, y2]] = rect;
                 if(x1 < pointer[0] && pointer[0] < x2 && y1 < pointer[1] && pointer[1] < y2) {
-                    console.log(i+1, j+1);
+//                    console.log(i+1, j+1);
+                    countDown(j, i);
                     highlightCell(j, i);
                     break;
                 }
@@ -159,7 +179,7 @@ function runDetection() {
             const indexOfMaxValue = bboxPerimeters.indexOf(Math.max(...bboxPerimeters));
             [x, y, width, height] = predictions[indexOfMaxValue]['bbox'];
             pointer = [x + width/2, y + height/2];
-            console.log(pointer);
+//            console.log(pointer);
         }
 
         model.renderPredictions(predictions, canvasBbox, contextBbox, video);
@@ -172,4 +192,5 @@ function runDetection() {
 handTrack.load(modelParams).then(m => {
     model = m;
     updateNote.innerText = "Loaded model!";
+    toggleVideo();
 });
