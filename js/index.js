@@ -134,9 +134,16 @@ function drawZero(x, y) {
 }
 
 function drawMoves() {
-    drawCross(1, 1);
-    drawZero(2, 2);
-    drawZero(1, 0);
+    let b = board.state.game._gameBoard;
+    for(let i = 0; i < 3; i++) {
+        for(let j = 0; j < 3; j++) {
+            if(b[i][j] == 'X') {
+                drawCross(i, j);
+            } else if(b[i][j] == 'O') {
+                drawZero(i, j);
+            }
+        }
+    }
 }
 
 video.addEventListener('play', function() {
