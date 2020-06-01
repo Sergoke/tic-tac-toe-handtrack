@@ -23,7 +23,7 @@ const VIEW = {
   result: 4
 }
 
-function Board(){
+function Board(opts){
   // Creates the board Object for the game
 
   // -- Data Stracture --
@@ -52,6 +52,12 @@ function Board(){
       ],
       turn: 0, //we set this var randomly for the first move.
     }
+
+    gameResults.winningLine = null;
+    gameResults.winner = null;
+
+    opts.resetbtn.style.display = 'none';
+    opts.resultsBlock.innerHTML = '';
   }
 
   function moveCount(board){
@@ -238,7 +244,7 @@ function Board(){
     }
 
 
-    function htmlGameEnd (){
+    function htmlGameEnd() {
       function arraysAreEqual (arr1, arr2){
         if(arr1.length !== arr2.length)
           return false;
@@ -254,15 +260,8 @@ function Board(){
       if(result !== RESULT.tie)
         resultText = getPlayerName(result) + " Won"
 
-      let htmlBefore = `<h3>${resultText} ${htmlSpaces(2)} Click to restart </h3> `
-      let board = state.game._gameBoard.reduce(function(acc,curr,rowIndex){
-          return acc + `<div id="row${rowIndex}" class="row">${curr.map(
-            (str,colIndex)=>
-            `<div class="cell col${colIndex} ${winningLine.some(arr=>(arraysAreEqual(arr,[rowIndex,colIndex]))) ? "winningLine" : ""}"
-              data-row=${rowIndex} data-column=${colIndex}>${str}</div>`).join('')}</div>`
-        }, ``)
-        let htmlAfter = `<h4>Score: ${htmlSpaces(1)} Player 1 - ${state.players[0].score} ${htmlSpaces(2)} ${state.players[1].isComputer? "Computer" : "Player 2" } - ${state.players[1].score}</h4>`
-      return `<div id='resultView'> ${htmlBefore} <div id="board">${board}</id> ${htmlAfter} </div>`
+      opts.resultsBlock.innerHTML = resultText;
+      opts.resetbtn.style.display = 'block';
     }
 
     let html = ''
@@ -316,24 +315,27 @@ function Board(){
     }
 
     applyMove(board,move,symbol)
-    let result = getResult(board, symbol).result
+    let result = getResult(board, symbol);
 
-    if (result === RESULT.incomplete){
+    if(result.winningLine) {
+        gameResults.winningLine = result.winningLine;
+    }
+
+    if (result.result === RESULT.incomplete){
       state.game.turn = (state.game.turn+1)%2
       render()
     } else {
       //Increment score and show result
-      if(result !== RESULT.tie) {
-        let winningPlayer = state.players.find((player)=>{return player.symbol == result})
+      if(result.result !== RESULT.tie) {
+        let winningPlayer = state.players.find((player)=>{return player.symbol == result.result})
         winningPlayer.score++
         gameResults.winner = winningPlayer;
-        gameResults.winningLine = result.winningLine;
       }
 
       state.view = VIEW.result
       render()
     }
-    if (result==RESULT.incomplete && state.players[state.game.turn].isComputer){
+    if (result.result==RESULT.incomplete && state.players[state.game.turn].isComputer){
       doComputerMove()
     }
   }
@@ -351,7 +353,7 @@ function Board(){
 //  $(options.el).on('click', '#gameView .cell', playerMoveHandler)
 //  $(options.el).on('click', '#resultView', beginGame)
 
-
+    opts.resetbtn.addEventListener('click', beginGame);
     initGame()
     render()
 
@@ -363,4 +365,7 @@ function Board(){
     }
 }
 
-window.board = new Board()
+window.board = new Board({
+    resetbtn: document.getElementById('resetbtn'),
+    resultsBlock: document.getElementById('resultsBlock')
+})

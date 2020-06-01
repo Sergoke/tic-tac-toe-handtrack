@@ -91,7 +91,7 @@ function countDown(x, y) {
         timeoutTurn = setTimeout(() => {
             console.log('move to: ', pointerCell);
             board.doPlayerMove(x, y);
-        }, 3000);
+        }, 2000);
     }
 }
 
@@ -106,7 +106,7 @@ function drawCross(x, y) {
     context.lineWidth = "3";
     context.strokeStyle = "red";
 
-    if(board.gameResults.winner) {
+    if(board.gameResults.winningLine) {
         for(el of board.gameResults.winningLine) {
             if(x == el[0] && y == el[1]) {
                 context.strokeStyle = "blue";
@@ -137,7 +137,7 @@ function drawZero(x, y) {
     context.lineWidth = "3";
     context.strokeStyle = "red";
 
-    if(board.gameResults.winner) {
+    if(board.gameResults.winningLine) {
         for(el of board.gameResults.winningLine) {
             if(x == el[0] && y == el[1]) {
                 context.strokeStyle = "blue";
@@ -205,9 +205,8 @@ video.addEventListener('play', function() {
                     }
                 }
             }
-
-            setTimeout(loop, 1000 / 30); // drawing at 30fps
         }
+        setTimeout(loop, 1000 / 30); // drawing at 30fps
     })();
 }, 0);
 
