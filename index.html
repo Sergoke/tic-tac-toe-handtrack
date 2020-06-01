@@ -7,20 +7,25 @@
     </head>
 
     <body>
-        <div>
-            <button  id="trackbutton" type="button">
-                Toggle Video
-            </button>
-            <div id="updatenote"> loading model ..</div>
-        </div>
         <video autoplay="autoplay" id="myvideo"></video>
 
-        <canvas id="canvas"></canvas>
+        <div class="game-wrapper">
+            <div>
+                <button  id="trackbutton" type="button">
+                    Toggle Video
+                </button>
+                <div id="updatenote">loading model...</div>
+            </div>
 
-        <h3 id="resultsBlock"></h3>
-        <button  id="resetbtn" type="button">
-            Start new game
-        </button>
+            <canvas id="canvas"></canvas>
+
+            <div>
+                <h3 id="resultsBlock"></h3>
+                <button  id="resetbtn" type="button">
+                    Start new game
+                </button>
+            </div>
+        </div>
 
         <canvas id="canvas-bbox"></canvas>
 

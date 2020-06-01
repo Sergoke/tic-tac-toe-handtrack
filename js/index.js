@@ -214,7 +214,7 @@ function startVideo() {
     handTrack.startVideo(video).then(function (status) {
         console.log("video started", status);
         if (status) {
-            updateNote.innerText = "Video started. Now tracking";
+            updateNote.innerText = "";
             isVideo = true;
             runDetection();
         } else {
@@ -225,7 +225,7 @@ function startVideo() {
 
 function toggleVideo() {
     if (!isVideo) {
-        updateNote.innerText = "Starting video";
+//        updateNote.innerText = "Starting video";
         startVideo();
     } else {
         updateNote.innerText = "Stopping video";
@@ -255,7 +255,7 @@ function runDetection() {
 //            console.log(pointer);
         }
 
-        model.renderPredictions(predictions, canvasBbox, contextBbox, video);
+//        model.renderPredictions(predictions, canvasBbox, contextBbox, video);
         if (isVideo) {
             requestAnimationFrame(runDetection);
         }

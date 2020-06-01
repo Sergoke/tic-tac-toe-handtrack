@@ -2,6 +2,16 @@
     display: none;
 }
 
+#trackbutton {
+    display: none;
+}
+
 #resetbtn {
     display: none;
+}
+
+.game-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
 }
