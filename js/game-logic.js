@@ -1,8 +1,3 @@
-/* Play Tic Toe, against a friend or the computer.
-If u choose to play against the computer, the 'Computer Player' will use the getBestMove function to choose one of the best possible moves.
-*/
-
-// -- Constants --
 const SYMBOLS = {
   x:'X',
   o:'O'
@@ -17,8 +12,6 @@ const gameResults = {
     winner: null
 }
 const VIEW = {
-//  question1: 1,
-//  question2: 2,
   game: 3,
   result: 4
 }
@@ -26,7 +19,6 @@ const VIEW = {
 function Board(opts){
   // Creates the board Object for the game
 
-  // -- Data Stracture --
   state = {
     view: VIEW.game,
     players: [
@@ -50,7 +42,7 @@ function Board(opts){
         ["", "", ""],
         ["", "", ""]
       ],
-      turn: 0, //we set this var randomly for the first move.
+      turn: 0,
     }
 
     gameResults.winningLine = null;
@@ -206,34 +198,13 @@ function Board(opts){
       return state.players[1].isComputer ? 'Computer' : "Player2"
     }
 
-//    function buttonHTML(btnGroup, data, text){
-//      return `<button type="button" class="btn btn-lg btn-default btnGroup${btnGroup}" data=${data}>${text}</button>`
-//    }
-
     function htmlSpaces (times){
       return '&emsp;'.repeat(times)
     }
 
-//    function htmlQ1(){
-//      return `<div id="view1"><h3>Which do you prefer?\n</h3>
-//      ${buttonHTML(1, "1player", "Man Against computer")}
-//      ${buttonHTML(1, "2players", "Man Against Man")}
-//      </div>`
-//    }
-//
-//    function htmlQ2(){
-//      const html2=`<div id="view2"><h3>${!state.players[1].isComputer? "Player 1, <br />" : ""}Which symbols would you like to use?</h3>
-//      ${buttonHTML(2, "X", "X")}
-//      ${buttonHTML(2, "O", "O")}`
-//      return html2
-//    }
-
     function htmlGame (){
       const moveNumber = moveCount(state.game._gameBoard) + 1
       const playerName = state.game.turn === 0 ? 'Player1' : state.players[1].isComputer ? 'Computer' : 'Player2'
-    //   let playerName = 'Computer'
-    //   if(!state.players[state.game.turn].isComputer)
-    //     playerName = state.game.turn === 0 ? 'Player1' : 'Player2'
 
       let htmlBefore = `<h3>move: ${moveNumber} ${htmlSpaces(5)} turn: ${playerName}</h3>`
       let board = state.game._gameBoard.reduce(function(acc,curr,rowIndex){
@@ -269,28 +240,7 @@ function Board(opts){
     else if (state.view == VIEW.question2) {html = htmlQ2()}
     else if (state.view == VIEW.result) {html=htmlGameEnd()}
     else {html=htmlGame()}
-    // console.log(html)
-//    options.el.innerHTML = html
   }
-
-//  function question1Handler (ev){
-//    state.players[1].isComputer = !($(ev.currentTarget).attr('data')==="2players")
-//    state.view = VIEW.question2
-//    render()
-//  }
-
-//  function question2Handler (ev){
-//    let player1Symbol = $(ev.currentTarget).attr('data')
-//    state.players[0].symbol=player1Symbol;
-//    state.players[1].symbol=(player1Symbol===SYMBOLS.x)? SYMBOLS.o: SYMBOLS.x;
-//
-//    state.view = VIEW.game
-//    initGame()
-//    if(state.players[state.game.turn].isComputer)
-//      doComputerMove()
-//
-//    render()
-//  }
 
   function doComputerMove() {
     let symbol = state.players[1].symbol
@@ -348,10 +298,6 @@ function Board(opts){
       doComputerMove();
   }
 
-//  $(options.el).on('click', '.btnGroup1', question1Handler)
-//  $(options.el).on('click', '.btnGroup2', question2Handler)
-//  $(options.el).on('click', '#gameView .cell', playerMoveHandler)
-//  $(options.el).on('click', '#resultView', beginGame)
 
     opts.resetbtn.addEventListener('click', beginGame);
     initGame()

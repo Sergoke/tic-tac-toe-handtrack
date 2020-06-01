@@ -242,7 +242,6 @@ trackButton.addEventListener("click", function() {
 
 function runDetection() {
     model.detect(video).then(predictions => {
-//        console.log("Predictions: ", predictions);
         let bboxPerimeters = [];
         if(predictions.length) {
             for(pred of predictions) {
@@ -252,7 +251,6 @@ function runDetection() {
             const indexOfMaxValue = bboxPerimeters.indexOf(Math.max(...bboxPerimeters));
             [x, y, width, height] = predictions[indexOfMaxValue]['bbox'];
             pointer = [x + width/2, y + height/2];
-//            console.log(pointer);
         }
 
 //        model.renderPredictions(predictions, canvasBbox, contextBbox, video);
