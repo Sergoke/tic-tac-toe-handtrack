@@ -33,9 +33,7 @@ function drawGameField(ctx, margin=100) {
     fieldSize = Math.min(height, width) - 2 * margin
 
     fieldStart = [parseInt((width - fieldSize) / 2), parseInt((height - fieldSize) / 2)]
-    //    point_2 = [point_1[0] + fieldSize, point_1[1] + fieldSize]
 
-    //    cv2.rectangle(fr, point_1, point_2, (0, 0, 255), -1)
     ctx.beginPath();
     ctx.lineWidth = "3";
     ctx.strokeStyle = "green";
@@ -198,7 +196,6 @@ video.addEventListener('play', function() {
                     rect = rects[i][j];
                     [[x1, y1], [x2, y2]] = rect;
                     if(x1 < pointer[0] && pointer[0] < x2 && y1 < pointer[1] && pointer[1] < y2) {
-    //                    console.log(i+1, j+1);
                         countDown(j, i);
                         highlightCell(j, i);
                         break;
@@ -214,7 +211,7 @@ function startVideo() {
     handTrack.startVideo(video).then(function (status) {
         console.log("video started", status);
         if (status) {
-            updateNote.innerText = "";
+            updateNote.innerText = "Your symbol is X. To make a move simply place the green dot with your hand in the desired cell and hold it there for 2 seconds";
             isVideo = true;
             runDetection();
         } else {

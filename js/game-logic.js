@@ -9,7 +9,8 @@ const RESULT = {
   tie: 3
 }
 const gameResults = {
-    winner: null
+    winner: null,
+    winningLine: null
 }
 const VIEW = {
   game: 3,
@@ -236,10 +237,8 @@ function Board(opts){
     }
 
     let html = ''
-    if (state.view == VIEW.question1) {html = htmlQ1()}
-    else if (state.view == VIEW.question2) {html = htmlQ2()}
-    else if (state.view == VIEW.result) {html=htmlGameEnd()}
-    else {html=htmlGame()}
+    if (state.view == VIEW.result) {html=htmlGameEnd()}
+//    else {html=htmlGame()}
   }
 
   function doComputerMove() {
